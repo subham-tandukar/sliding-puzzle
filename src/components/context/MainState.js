@@ -31,7 +31,7 @@ const MainState = (props) => {
 
   const TILE_COUNT =
     levelMode === "easy"
-      ? 4
+      ? 9
       : levelMode === "normal"
       ? 16
       : levelMode === "hard"
@@ -39,7 +39,7 @@ const MainState = (props) => {
       : null;
   const GRID_SIZE =
     levelMode === "easy"
-      ? 2
+      ? 3
       : levelMode === "normal"
       ? 4
       : levelMode === "hard"

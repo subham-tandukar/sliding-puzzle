@@ -42,9 +42,7 @@ const Nav = () => {
         <div className="uk-container">
           <div className="uk-flex uk-flex-around@s uk-flex-between uk-flex-wrap">
             <div>
-              <h5>
-                Sliding Puzzle
-              </h5>
+              <h5>Sliding Puzzle</h5>
             </div>
 
             <div>
