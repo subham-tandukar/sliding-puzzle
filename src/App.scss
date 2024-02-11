@@ -1,0 +1,801 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,300;0,400;0,500;0,700;0,800;1,600;1,700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+$primary: #dba521;
+$secondary: #0bbcaa;
+$bg: #11213a;
+$line: #f0dbbe;
+$transition: all 0.3s ease-in-out;
+
+@font-face {
+  font-family: myFont;
+  src: url(../src/Rockwell-ExtraBold.otf);
+}
+
+body {
+  font-size: 13px;
+  font-family: "Open Sans", sans-serif;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h5,
+h4,
+h6 {
+  color: #000;
+  /* font-family: "Open Sans", sans-serif; */
+  font-family: myFont;
+}
+
+p {
+  text-align: justify;
+  line-height: 25px;
+}
+
+a:hover,
+a:active {
+  text-decoration: none;
+}
+.x {
+  color: $secondary !important;
+}
+.o {
+  color: $primary !important;
+}
+.b {
+  color: $bg !important;
+}
+.r {
+  color: #f53e3e !important;
+}
+
+.bg-light {
+  background: transparent !important;
+}
+// --buttons --
+.buttons {
+  margin-top: 30px;
+  text-align: center;
+  border-radius: 30px;
+}
+
+.blob-btn {
+  $numOfBlobs: 4;
+  z-index: 1;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  color: $bg;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  transition: color 0.5s;
+  cursor: pointer;
+  border-radius: 30px;
+
+  a {
+    position: relative;
+    z-index: 1000;
+    display: block;
+    padding: 20px 46px;
+    color: $bg;
+    transition: all 0.3s;
+  }
+
+  &:before {
+    content: "";
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid $bg;
+    border-radius: 30px;
+  }
+
+  &:after {
+    content: "";
+    z-index: -2;
+    position: absolute;
+    left: 2px * 1.5;
+    top: 2px * 1.5;
+    width: 100%;
+    height: 100%;
+
+    transition: all 0.3s 0.2s;
+    border-radius: 30px;
+  }
+
+  &:hover {
+    color: #fff;
+    border-radius: 30px;
+
+    &:after {
+      transition: all 0.3s;
+      left: 0;
+      top: 0;
+      border-radius: 30px;
+    }
+  }
+
+  &:hover a {
+    color: #fff;
+  }
+
+  &__inner {
+    z-index: -1;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    background: #ffffff;
+  }
+
+  // additional container created, because in FF blobs are breaking overflow:hidden of element with svg gooey filter
+  &__blobs {
+    position: relative;
+    display: block;
+    height: 100%;
+    filter: url("#goo");
+  }
+
+  &__blob {
+    position: absolute;
+    top: 2px;
+    width: 100% / $numOfBlobs;
+    height: 100%;
+    background: $bg;
+    border-radius: 100%;
+    transform: translate3d(0, 150%, 0) scale(1.7);
+    transition: transform 0.45s;
+
+    @supports (filter: url("#goo")) {
+      transform: translate3d(0, 150%, 0) scale(1.4);
+    }
+
+    @for $i from 1 through $numOfBlobs {
+      &:nth-child(#{$i}) {
+        left: ($i - 1) * (120% / $numOfBlobs);
+        transition-delay: ($i - 1) * 0.08s;
+      }
+    }
+
+    .blob-btn:hover & {
+      transform: translateZ(0) scale(1.7);
+
+      @supports (filter: url("#goo")) {
+        transform: translateZ(0) scale(1.4);
+      }
+    }
+  }
+}
+
+.uk-button {
+  background: $bg;
+  color: #fff;
+  border-radius: 10px;
+  padding: 0.5rem;
+  line-height: initial;
+  transition: $transition;
+}
+
+.btn-txt {
+  padding: 1rem 1.5rem;
+}
+.btn-txt:hover {
+  background: $primary;
+}
+.btn-txt.red {
+  background: #f53e3e;
+}
+.btn-txt:hover {
+  background: $secondary;
+}
+.btn-txt.animate {
+  animation: pop 0.5s ease-in-out infinite alternate-reverse;
+  -webkit-animation: pop 0.5s ease-in-out infinite alternate-reverse;
+}
+.btn-center {
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 10px;
+}
+// pop up
+
+.popup-bg {
+  width: 100%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100%;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.75);
+  // display: none;
+  opacity: 0;
+  visibility: hidden;
+
+  .popup {
+    // display: none;
+    opacity: 0;
+    visibility: hidden;
+    background-image: linear-gradient(
+    65.9deg,
+    rgba(85, 228, 224, 1) 5.5%,
+    rgba(75, 68, 224, 0.74) 54.2%,
+    rgba(64, 198, 238, 1) 55.2%,
+    rgba(177, 36, 224, 1) 98.4%
+  );
+    border-radius: 10px;
+    background-position: center;
+    width: 30%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: all 0.7s cubic-bezier(0, -0.01, 0.57, 1.9);
+    height: auto;
+    // min-height: 50vh;
+    padding: 1.5rem 2rem;
+    z-index: 1000;
+    box-shadow: 0 0px 15px -9px rgba(0, 0, 0, 0.56),
+      0 4px 0px 0px rgba(0, 0, 0, 0), 0 2px 3px 0 rgba(0, 0, 0, 0.2);
+    .overlay {
+      position: absolute;
+      top: 0;
+      border-radius: 10px;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      z-index: -1;
+    }
+
+    .popup-body {
+      p {
+        color: $bg;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+
+    .popup-footer {
+      display: flex;
+      justify-content: end;
+      .uk-button {
+        margin-left: 1rem;
+        h4 {
+          margin: 0 0.3rem;
+          color: #fff;
+        }
+      }
+      .no {
+        background: #f53e3e;
+        animation: pop 0.5s ease-in-out infinite alternate-reverse;
+      }
+      .yes:hover {
+        background: $primary;
+      }
+    }
+  }
+
+  .modalPopup,
+  .singlePopup {
+    .popup-body {
+      p {
+        text-align: center;
+      }
+    }
+    .popup-footer {
+      justify-content: center;
+    }
+  }
+}
+@keyframes pop {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+.view-overlay {
+  width: 100vw;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100vh;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.show-popup-bg {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.show-popup {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translate(-50%, -50%) scale(1) !important;
+}
+
+@media (max-width: 1300px) {
+  .popup-bg {
+    .popup {
+      width: 40%;
+    }
+  }
+}
+
+@media (max-width: 960px) {
+  .popup-bg {
+    .popup {
+      width: 60%;
+    }
+  }
+}
+@media (max-width: 676px) {
+  .popup-bg {
+    .popup {
+      width: 90%;
+      display: block;
+    }
+  }
+}
+
+/* progress-bar */
+.progress-bar {
+  height: 100vh;
+  width: 100vw;
+  background: rgba(255, 255, 255, 0.8);
+  display: none;
+  .MuiBox-root {
+    position: absolute;
+    z-index: 10000;
+    width: 50vw !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    .MuiLinearProgress-barColorPrimary {
+      background-color: $bg !important;
+    }
+
+    p {
+      color: $bg !important;
+      text-align: right;
+      margin-right: -40px;
+    }
+  }
+}
+
+// navbar
+.nav-bar {
+  h5 {
+    color: $primary;
+    font-size: 30px;
+    letter-spacing: 1px;
+
+    span {
+      font-size: 45px;
+      margin: 0 10px;
+      display: inline-block;
+      border-bottom: 10px solid $bg;
+    }
+  }
+  .uk-button {
+    h4 {
+      margin: 0;
+      color: #fff;
+      font-size: 35px;
+      padding: 0 6px;
+    }
+  }
+  .back:hover {
+    background: $secondary;
+  }
+  .volume:hover {
+    background: $primary;
+  }
+  .close:hover {
+    background: #f53e3e;
+  }
+}
+
+// volume control
+.volume-bg {
+  padding: 1rem;
+  padding-bottom: 0.5rem;
+  width: 300px;
+
+  span {
+    font-weight: bold;
+    color: $bg;
+  }
+}
+/* index page */
+.bg {
+  background-image: url(../src/images/mainbg.png);
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  background-attachment: fixed;
+  background-size: contain;
+  background-position: center;
+}
+
+.bg .content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  width: 100%;
+  text-align: center;
+}
+.bg .content h5 {
+  font-size: 50px;
+  font-weight: bold;
+  color: #fff;
+}
+.bg .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(12, 13, 20, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+// content
+.content-wrapper {
+  background-image: linear-gradient(
+    65.9deg,
+    rgba(85, 228, 224, 1) 5.5%,
+    rgba(75, 68, 224, 0.74) 54.2%,
+    rgba(64, 198, 238, 1) 55.2%,
+    rgba(177, 36, 224, 1) 98.4%
+  );
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  background-attachment: fixed;
+  background-size: contain;
+  background-position: center;
+
+  .content {
+    position: relative;
+    z-index: 1;
+  }
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.85);
+  }
+}
+
+// home page
+.home {
+  .content {
+    h1 {
+      color: $secondary;
+    }
+
+    h2,
+    h3 {
+      color: $primary;
+    }
+
+    h1,
+    h2 {
+      margin: 0 5rem;
+      display: inline;
+      font-size: 90px;
+    }
+
+    .home-img {
+      width: 180px;
+      display: block;
+      margin: 0 auto;
+    }
+  }
+}
+
+.game {
+  h5 {
+    text-align: center;
+    font-size: 30px;
+    margin: 0;
+    color: $primary;
+    text-transform: capitalize;
+  }
+  .player {
+    text-align: center;
+    color: $bg;
+    font-size: 50px;
+    font-weight: bold;
+    margin-top: 2rem;
+    span {
+      font-family: myFont;
+    }
+  }
+}
+.animate {
+  animation: changeword 0.5s ease-in-out 1;
+}
+@keyframes changeword {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+  }
+}
+.game-board {
+  display: flex;
+  flex-direction: column;
+  margin-top: 3rem;
+}
+
+.board-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.square {
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+  font-size: 40px;
+  font-weight: bold;
+  border: none;
+  background-color: $bg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: myFont;
+}
+
+.square:hover {
+  background-color: rgba(17, 33, 58, 0.7);
+}
+
+.winning-row {
+  animation: vertical-line 0.5s ease-in-out;
+}
+
+.winning {
+  background-color: $line;
+}
+.winning:hover {
+  background-color: $line;
+}
+
+@keyframes vertical-line {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .bg .content h5 {
+    font-size: 20px;
+  }
+  .nav-bar .back,
+  .nav-bar .volume {
+    margin-right: 0.5rem !important;
+  }
+  .nav-bar .uk-button svg {
+    width: 2rem;
+  }
+  .nav-bar .uk-button h4 {
+    font-size: 23px;
+  }
+  .nav-bar h5 {
+    font-size: 15px;
+  }
+  .nav-bar h5 span {
+    font-size: 25px;
+    margin: 0 5px;
+    border-bottom: 5px solid #11213a;
+  }
+  .home .content h1,
+  .home .content h2 {
+    margin: 0 1rem;
+    font-size: 70px;
+  }
+  .home .content .home-img {
+    width: 100px;
+  }
+  .game h5 {
+    font-size: 20px;
+  }
+  .game .player {
+    font-size: 30px;
+  }
+  .game-board {
+    margin-top: 2rem;
+  }
+  .square {
+    width: 60px;
+    height: 60px;
+    font-size: 20px;
+  }
+  .blob-btn a {
+    padding: 18px;
+    font-size: 11px;
+  }
+  .mode-btn a {
+    padding: 18px 30px !important;
+  }
+  .blob-btn a svg {
+    width: 0.8rem;
+  }
+  .multi a svg {
+    width: 1rem !important;
+  }
+  .popup-bg .popup .popup-body p {
+    font-size: 16px;
+  }
+  .popup-bg .popup .popup-footer {
+    margin-top: 2rem !important;
+  }
+}
+
+//
+.board {
+  position: relative;
+  padding: 0;
+}
+.tile {
+  position: absolute;
+  list-style: none;
+  background: #ec6f66;
+  display: grid;
+  place-items: center;
+
+  span {
+    font-weight: 700;
+    line-height: 1;
+    color: $bg;
+    text-align: center;
+    &.badge {
+      color: #fff;
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 5px;
+    }
+  }
+}
+.sliding-puzzle {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+
+  & > div {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  input {
+    display: none;
+  }
+  label {
+    background: transparent;
+    border: 1px solid $primary;
+    padding: 1rem 1.5rem;
+    color: $primary;
+    border-radius: 10px;
+    line-height: initial;
+    transition: $transition;
+    cursor: pointer;
+    display: block;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 14px;
+    text-align: center;
+
+    &:hover {
+      background: $primary;
+      color: #fff;
+    }
+  }
+  input[type="radio"]:checked + label {
+    background: $primary;
+    color: #fff;
+  }
+}
+.title {
+  font-size: 20px;
+  color: $bg;
+  text-align: center;
+}
+.board-btn {
+  & > div:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+.frame {
+  width: 280px;
+  height: 280px;
+  margin-bottom: 20px;
+  position: relative;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+  .selected-img {
+    position: absolute;
+    top: 7px;
+    left: 40px;
+    transform: scale(0.74);
+    width: 240px;
+    height: 240px;
+
+    img {
+      object-fit: cover;
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  position: fixed;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.77);
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .loader {
+    width: 2rem;
+    height: 2rem;
+    margin: 2rem;
+    border-radius: 50%;
+    border: 0.3rem solid rgba($bg, 0.3);
+    border-top-color: $bg;
+    animation: 1.5s spin infinite linear;
+    border-bottom-color: $bg;
+  }
+}
