@@ -42,7 +42,7 @@ const Home = () => {
                 <h3 className="m-0 mb-3 text-center">Select Mode</h3>
               </div>
               <div className="uk-flex uk-flex-center ">
-                <div className="buttons m-0">
+                <div className="buttons m-0 mx-2">
                   <button
                     className="blob-btn mode-btn"
                     onClick={() => {
@@ -95,7 +95,7 @@ const Home = () => {
                   </svg>
                 </div>
 
-                <div className="buttons m-0">
+                <div className="buttons m-0 mx-2">
                   <button
                     className="blob-btn mode-btn"
                     onClick={() => {
@@ -148,7 +148,7 @@ const Home = () => {
                   </svg>
                 </div>
 
-                <div className="buttons m-0">
+                <div className="buttons m-0 mx-2">
                   <button
                     className="blob-btn mode-btn"
                     onClick={() => {

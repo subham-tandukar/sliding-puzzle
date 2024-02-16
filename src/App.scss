@@ -232,12 +232,12 @@ a:active {
     opacity: 0;
     visibility: hidden;
     background-image: linear-gradient(
-    65.9deg,
-    rgba(85, 228, 224, 1) 5.5%,
-    rgba(75, 68, 224, 0.74) 54.2%,
-    rgba(64, 198, 238, 1) 55.2%,
-    rgba(177, 36, 224, 1) 98.4%
-  );
+      65.9deg,
+      rgba(85, 228, 224, 1) 5.5%,
+      rgba(75, 68, 224, 0.74) 54.2%,
+      rgba(64, 198, 238, 1) 55.2%,
+      rgba(177, 36, 224, 1) 98.4%
+    );
     border-radius: 10px;
     background-position: center;
     width: 30%;
@@ -797,5 +797,28 @@ a:active {
     border-top-color: $bg;
     animation: 1.5s spin infinite linear;
     border-bottom-color: $bg;
+  }
+}
+
+@media (max-width: 767px) {
+  .sliding-puzzle {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .board-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  .board-btn > div:not(:last-child) {
+    margin-bottom: 0;
+  }
+  .sliding-puzzle > div {
+    margin-top: 0;
+  }
+  .sliding-puzzle label,
+  .btn-txt {
+    padding: 10px 16px;
+    font-size: 12px;
   }
 }
